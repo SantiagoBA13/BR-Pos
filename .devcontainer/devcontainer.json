@@ -1,0 +1,17 @@
+{
+  "name": "BR-Pos",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "cd app && npm ci || true",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": { "label": "Vite (UI)" }
+  }
+}
