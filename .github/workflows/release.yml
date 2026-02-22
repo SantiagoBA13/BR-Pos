@@ -5,20 +5,33 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+          cache-dependency-path: app/package-lock.json
 
       - name: Install
         working-directory: app
         run: npm ci
 
-      - name: Build & Publish
+      - name: Build (Vite + Electron TS)
+        working-directory: app
+        run: npm run build
+
+      - name: Package & Publish (Portable EXE)
         working-directory: app
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
